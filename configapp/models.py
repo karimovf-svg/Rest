@@ -17,12 +17,12 @@ class Movie(models.Model):
         if not self.slug:
             origin_slug = slugify(self.title)
             slug = origin_slug
-            count = 0
-            while Movie.objects.filter(slug=slug).exist():
-                slug = f"{slug}-{count}"
+            count = 1
+            while Movie.objects.filter(slug=slug).exists():
+                slug = f"{origin_slug}-{count}"
                 count += 1
             self.slug = slug
-        super().save(**kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
